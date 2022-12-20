@@ -1,0 +1,3 @@
+lowercase = "abcdefghijklmnopqrstuvwxyz"
+uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
