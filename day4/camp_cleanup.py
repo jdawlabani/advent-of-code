@@ -12,6 +12,21 @@ for line in contents:
     right_end = int(split[3])
     if((left_start <= right_start and left_end >= right_end) or (left_start >= right_start and left_end <= right_end)):
         count += 1
-        print(split)
 print(count)
+f.close()
 
+# PART 2
+f = open('input.txt', 'r')
+contents = f.readlines()
+count = 0
+for line in contents:
+    # split line into array of the numbers and assign cast them into ints, then check if one range is contained in another
+    split = re.split(r'[-,\n]', line)
+    left_start = int(split[0])
+    left_end = int(split[1])
+    right_start = int(split[2])
+    right_end = int(split[3])
+    if((left_start >= right_start and left_start <= right_end) or (left_end >= right_start and left_end <= right_end) or (right_start >= left_start and right_start <= left_end) or (right_end >= left_start and right_end <= left_end)):
+        count += 1
+print(count)
+f.close()
