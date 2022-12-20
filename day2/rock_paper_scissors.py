@@ -41,10 +41,13 @@ for line in contents:
         else:
             round_score += 3
     total_score += round_score
-print(total_score)
+print("PART 1 score: " + str(total_score))
 f.close()
 
 # PART 2
+# A  = rock
+# B = paper
+# C = scissors
 # X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win. Good luck!"
 # rock is 1 point, paper is 2 points, scissors is 3 points
 f = open('input.txt','r')
@@ -54,30 +57,31 @@ for line in contents:
     round_score = 0
     outcome = line[2]
     opponent_choice = line[0]
-    if opponent_choice == 'A':
-        if outcome == 'X':
-            round_score = 3
-        elif outcome == 'Y':
-            round_score = 4
-        else:
-            round_score = 8
-    elif outcome == 'Y':
-        round_score += 2
+    if outcome == 'X':
+        round_score += 0
         if opponent_choice == 'A':
-            round_score += 6
-        elif opponent_choice == 'B':
             round_score += 3
+        elif opponent_choice == 'B':
+            round_score += 1
         else:
-            round_score += 0
-    else:
-        # you chose scissors
+            round_score += 2
+    elif outcome == 'Y':
         round_score += 3
         if opponent_choice == 'A':
-            round_score += 0
+            round_score += 1
         elif opponent_choice == 'B':
-            round_score += 6
+            round_score += 2
         else:
             round_score += 3
+    else:
+        # you won
+        round_score += 6
+        if opponent_choice == 'A':
+            round_score += 2
+        elif opponent_choice == 'B':
+            round_score += 3
+        else:
+            round_score += 1
     total_score += round_score
-print(total_score)
+print("PART 2 score: " + str(total_score))
 f.close()
