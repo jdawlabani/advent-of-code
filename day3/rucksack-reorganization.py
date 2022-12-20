@@ -1,6 +1,5 @@
 import math
 
-
 lowercase = "abcdefghijklmnopqrstuvwxyz"
 uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -25,7 +24,7 @@ for line in contents:
 print(priority_sum)
 f.close()
 
-# PART 2: finding common item in three words
+# PART 2: finding common item in three word groups
 f = open('input.txt', 'r')
 contents = f.readlines()
 priority_sum = 0
@@ -48,6 +47,5 @@ for line in contents:
             except:
                 pass
         # set the first element of the next group
-        group[0] = line[:-1]
 print(priority_sum)
 
