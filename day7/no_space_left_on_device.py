@@ -8,7 +8,7 @@ class Directory:
         self.files = {}
         # keep the size of the directory that way for deletion we only have to go as deep as the limit
         self.size = 0
-        visted = False
+        self.visted = False
 
 
 current_dir = Directory(None, 'root',{})
@@ -41,9 +41,5 @@ for i in f:
             while p.parent != None:
                 p.size += int(command[0])
                 p = p.parent
-total = 0
-while not current_dir == None:
-    
-
 
 
