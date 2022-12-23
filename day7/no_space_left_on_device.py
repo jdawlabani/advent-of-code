@@ -1,45 +1,119 @@
-import re
-f = open('input.txt','r')
+# WAS NOT ABLE TO SOLVE THIS ONE, THIS SOLUTION WAS COPIED FROM https://github.com/orfeasa/advent-of-code-2022/blob/main/day_07/main.py
+
+from typing import Type
+
+
 class Directory:
-    def __init__(self, parent, path, children):
+    def __init__(self, name: str, parent: Type["Directory"] | None = None):
+        self.name = name
         self.parent = parent
-        self.path = path
-        self.children = {}
-        self.files = {}
-        # keep the size of the directory that way for deletion we only have to go as deep as the limit
-        self.size = 0
+        self.children: list[Type["Directory"] | Type["File"]] = []
+
+    def add_child(self, child: Type["Directory"] | Type["File"]):
+        self.children.append(child)
+
+    def get_path(self) -> str:
+        if self.parent is None:
+            return self.name
+        parent = self.parent.get_path()
+        if parent != "/":
+            return f"{parent}/{self.name}"
+        return f"/{self.name}"
+
+    def get_child(self, name: str) -> Type["Directory"] | Type["File"]:
+        for child in self.children:
+            if child.name == name:
+                return child
+        raise ValueError(f"Child {name} not found")
+
+    def total_size(self, size_cache: dict[str, int] | None = None) -> int:
+        curr_path = self.get_path()
+        total_size = sum(
+            child.total_size(size_cache) if isinstance(child, Directory) else child.size
+            for child in self.children
+        )
+        if size_cache is not None:
+            size_cache[curr_path] = total_size
+        return total_size
+
+    def __repr__(self):
+        return f"{self.name} (dir)"
 
 
-current_dir = Directory(None, 'root',{})
-# add the root to the directory
-current_dir.children.update({'/': Directory(current_dir,'/',{})})
-root_dir = current_dir.children['/']
-for i in f:
-    # split the command into an array
-    command = re.split(r'[ \n]', i)
-    # pop off the last command which will be an empty string because of \n
-    command.pop()
-    match command[0]:
-        case '$':
-            match command[1]:
-                case 'cd':
-                    match command[2]:
-                        case '..':
-                            current_dir = current_dir.parent
-                        case _:
-                            current_dir = current_dir.children[command[2]]
-                case 'ls':
-                    pass
-        case 'dir':
-            current_dir.children.update({command[1]: Directory(current_dir, current_dir.path+ '/' +command[1], {})})
-            print(current_dir.path)
-        case _:
-            current_dir.files.update({command[1]:command[0]})
-            # update the size of both the current directory and its parent directories
-            current_dir.size += int(command[0])
-            p = current_dir.parent
-            while p.parent != None:
-                p.size += int(command[0])
-                p = p.parent
+class File:
+    def __init__(self, name: str, parent: Type["Directory"], size: int):
+        self.name = name
+        self.parent = parent
+        self.size = size
+
+    def get_path(self) -> str:
+        return f"{self.parent.get_path()}/{self.name}"
+
+    def __repr__(self):
+        return f"{self.name} (file, size={self.size})"
 
 
+def calculated_directory_sizes(
+    root: Directory, size_cache: dict[str, int] | None = None
+) -> dict[str, int]:
+    if size_cache is None:
+        size_cache = {}
+    if root.get_path() in size_cache:
+        return size_cache
+    root.total_size(size_cache)
+    return size_cache
+
+
+def part_one(filename: str) -> int:
+    root = parse_input(filename)
+    dir_sizes = calculated_directory_sizes(root)
+    return sum([size for size in dir_sizes.values() if size < 100000])
+
+
+def part_two(filename: str) -> int:
+    root = parse_input(filename)
+    dir_sizes = calculated_directory_sizes(root)
+    total_size = 70000000
+    used_space = dir_sizes["/"]
+    space_needed = 30000000
+    return min(
+        [
+            size
+            for size in dir_sizes.values()
+            if total_size - used_space + size >= space_needed
+        ]
+    )
+
+
+def parse_input(filename: str) -> Directory:
+    with open(filename, "r", encoding="utf8") as f:
+        terminal_output = f.read().strip().split("\n")
+    root: Type["Directory"] = Directory("/")
+    current_directory = root
+    for line in terminal_output:
+        match line.split():
+            case ["$", "ls"]:
+                continue
+            case ["$", "cd", ".."]:
+                current_directory = current_directory.parent
+            case ["$", "cd", "/"]:
+                current_directory = root
+            case ["$", "cd", directory] if directory != "/":
+                current_directory = current_directory.get_child(directory)
+            case ["dir", directory]:
+                current_directory.add_child(Directory(directory, current_directory))
+            case [size, filename]:
+                current_directory.add_child(
+                    File(filename, current_directory, int(size))
+                )
+
+    return root
+
+
+if __name__ == "__main__":
+    input_path = "input.txt"
+    print("---Part One---")
+    print(part_one(input_path))
+
+    print("---Part Two---")
+    print(part_two(input_path))
