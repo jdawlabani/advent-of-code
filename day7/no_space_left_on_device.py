@@ -1,14 +1,13 @@
 import re
 f = open('input.txt','r')
 class Directory:
-    def __init__(self, parent, name, children):
+    def __init__(self, parent, path, children):
         self.parent = parent
-        self.name = name,
+        self.path = path
         self.children = {}
         self.files = {}
         # keep the size of the directory that way for deletion we only have to go as deep as the limit
         self.size = 0
-        self.visted = False
 
 
 current_dir = Directory(None, 'root',{})
@@ -32,7 +31,8 @@ for i in f:
                 case 'ls':
                     pass
         case 'dir':
-            current_dir.children.update({command[1]: Directory(current_dir, command[1], {})})
+            current_dir.children.update({command[1]: Directory(current_dir, current_dir.path+ '/' +command[1], {})})
+            print(current_dir.path)
         case _:
             current_dir.files.update({command[1]:command[0]})
             # update the size of both the current directory and its parent directories
