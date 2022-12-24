@@ -6,6 +6,7 @@ length = len(grid)
 counted_trees = []
 count = 0
 
+# PART 1
 for i in range(width):
     for j in range(length):
         # counts all the trees on the outside
