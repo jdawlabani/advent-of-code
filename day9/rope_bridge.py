@@ -1,47 +1,53 @@
 f = open('input.txt','r')
+g = open('ex1.txt', 'r')
 contents = f.read().strip().split('\n')
-# grid where tail has stepped
-tail_coordinates = []
-# x and y coordinates
-head_x = 0
-head_y = 0
-tail_x = 0
-tail_y = 0
+# grid where tail has stepped, including start point
+tail_coordinates = ['0,0']
+# head_x, head_y, tail_x, tail_y coordinates
+coordinates = [0,0,0,0]
 
 
-def move(direction, steps, h_x, h_y, t_x, t_y, t_coordinates):
+def move(direction, steps, coordinates, t_coordinates):
     match direction:
         case 'U':
             for i in range(steps):
-                h_y -= 1
-                if(abs(h_y - t_y) != 1):
-                    t_y -= 1
-                    if str(t_x)+','+str(t_y) not in t_coordinates:
-                        t_coordinates.append(str(t_x)+','+str(t_y))
+                coordinates[1] -= 1
+                if(abs(coordinates[1]- coordinates[3]) == 2):
+                    coordinates[2] = coordinates[0]
+                    coordinates[3] -= 1
+                    if str(coordinates[2])+','+str(coordinates[3]) not in t_coordinates:
+                        t_coordinates.append(str(coordinates[2])+','+str(coordinates[3]))
         case 'D':
             for i in range(steps):
-                h_y += 1
-                if(abs(h_y - t_y) != 1):
-                    t_y += 1
-                    if str(t_x)+','+str(t_y) not in t_coordinates:
-                        t_coordinates.append(str(t_x)+','+str(t_y))
+                coordinates[1] += 1
+                if(abs(coordinates[1] - coordinates[3]) == 2):
+                    coordinates[2] = coordinates[0]
+                    coordinates[3] += 1
+                    if str(coordinates[2])+','+str(coordinates[3]) not in t_coordinates:
+                        t_coordinates.append(str(coordinates[2])+','+str(coordinates[3]))
         case 'L':
             for i in range(steps):
-                h_x -= 1
-                if(abs(h_x - t_x) != 1):
-                    t_x -= 1
-                    if str(t_x)+','+str(t_y) not in t_coordinates:
-                        t_coordinates.append(str(t_x)+','+str(t_y))
+                coordinates[0] -= 1
+                if(abs(coordinates[0] - coordinates[2]) == 2):
+                    coordinates[3] = coordinates[1]
+                    coordinates[2] -= 1
+                    if str(coordinates[2])+','+str(coordinates[3]) not in t_coordinates:
+                        t_coordinates.append(str(coordinates[2])+','+str(coordinates[3]))
         case 'R':
             for i in range(steps):
-                h_x -= 1
-                if(abs(h_x - t_x) != 1):
-                    t_x -= 1
-                    if str(t_x)+','+str(t_y) not in t_coordinates:
-                        t_coordinates.append(str(t_x)+','+str(t_y))
-
+                coordinates[0] += 1
+                if(abs(coordinates[0] - coordinates[2]) == 2):
+                    coordinates[3] = coordinates[1]
+                    coordinates[2] += 1
+                    if str(coordinates[2])+','+str(coordinates[3]) not in t_coordinates:
+                        t_coordinates.append(str(coordinates[2])+','+str(coordinates[3]))
+    return coordinates
 for command in contents:
     c = command.split(' ')
-    move(c[0], int(c[1]), head_x, head_y, tail_x, tail_y, tail_coordinates)
+    coordinates = move(c[0], int(c[1]), coordinates, tail_coordinates)
 
-print(len(tail_coordinates))
+
+print("PART 1: " + str(len(tail_coordinates)))
+
+
+
