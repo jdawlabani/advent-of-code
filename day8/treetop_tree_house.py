@@ -13,13 +13,15 @@ for i in range(width):
         else:
             # check from top
             visible = True
+            counted = False
             for k in range(i,-1,-1):
                 if(int(grid[i][j]) < int(grid[k][j])):
                     visible = False
+                    # print("false top: " + str(i) + " "+str(j))
                     break
-            if visible:
+            if visible and not counted:
+                counted = True
                 count += 1
-                print("false top: " + str(i) + " "+str(j))
                 counted_trees.append("top " + str(i) + " " + str(j))
             # check from bottom
             if not visible:
@@ -27,11 +29,12 @@ for i in range(width):
                 for k in range(i+1,length):
                     if(int(grid[i][j]) < int(grid[k][j])):
                         visible = False
-                        print("false bottom: " + str(i) + " "+str(j))
+                        # print("false bottom: " + str(i) + " "+str(j))
                         break
-                if visible:
+                if visible and not counted:
+                    counted = True
                     count += 1
-                    counted_trees.append("bottom " +str(i) + " " + str(j))
+                    # counted_trees.append("bottom " +str(i) + " " + str(j))
             
             # check from left
             if not visible:
@@ -39,10 +42,11 @@ for i in range(width):
                 for k in range(j-1,-1,-1):
                     if(int(grid[i][j]) < int(grid[i][k])):
                         visible = False
+                        # print("false left: " + str(i) + " "+str(j))
                         break
-                if visible:
+                if visible and not counted:
+                    counted = True
                     count += 1
-                    print("false left: " + str(i) + " "+str(j))
                     counted_trees.append("left " + str(i) + " " + str(j))
 
             if not visible:
@@ -51,10 +55,12 @@ for i in range(width):
                 for k in range(j+1,width):
                     if(int(grid[i][j]) < int(grid[i][k])):
                         visible = False
+                        # print("false right: " + str(i) + " "+str(j))
                         break
-                if visible:
+                if visible and not counted:
+                    counted = True
                     count += 1
-                    counted_trees.append("right "+str(i) + " " + str(j))
+                    # counted_trees.append("right "+str(i) + " " + str(j))
 print(count)
 print(counted_trees)
 
