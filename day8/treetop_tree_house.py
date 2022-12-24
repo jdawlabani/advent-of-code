@@ -1,5 +1,5 @@
 f = open('input.txt','r')
-g = open('ex1.txt', 'r')
+# g = open('ex1.txt', 'r')
 grid = f.read().strip().split('\n')
 width = len(grid[0])
 length = len(grid)
