@@ -21,7 +21,6 @@ for i in range(width):
                 if(int(grid[i][j]) <= int(grid[k][j])):
                     t_score = i - k
                     visible = False
-
                     # print("false top: " + str(i) + " "+str(j))
                     break
             if visible and not counted:
