@@ -1,6 +1,6 @@
 f = open('input.txt','r')
 g = open('ex1.txt', 'r')
-grid = g.read().strip().split('\n')
+grid = f.read().strip().split('\n')
 width = len(grid[0])
 length = len(grid)
 counted_trees = []
@@ -12,10 +12,10 @@ max_score = 0
 # PART 1
 for i in range(width):
     for j in range(length):
-        b_score = 10
-        r_score = 10
-        t_score = 10
-        l_score = 10
+        b_score = 1
+        r_score = 1
+        t_score = 1
+        l_score = 1
         # counts all the trees on the outside
         if (i == 0 or i==length or j == 0 or j == width):
             count += 1
