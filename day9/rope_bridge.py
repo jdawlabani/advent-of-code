@@ -1,6 +1,6 @@
 f = open('input.txt','r')
-g = open('ex1.txt', 'r')
-contents = f.read().strip().split('\n')
+g = open('ex2.txt', 'r')
+contents = g.read().strip().split('\n')
 # grid where tail has stepped, including start point
 tail_coordinates = ['0,0']
 # head_x, head_y, tail_x, tail_y coordinates
@@ -52,16 +52,17 @@ def move_2(direction, steps, coordinates, t_coordinates):
         case 'U':
             for i in range(steps):
                 coordinates[1] -= 1
-                for j in range(1,len(coordinates)-2,2):
+                for j in range(1,len(coordinates)-1,2):
                     if(abs(coordinates[j]- coordinates[j+2]) == 2):
                         coordinates[j+1] = coordinates[j-1]
                         coordinates[j+2] -= 1
+                    if(abs(coordinates[j-1] - coordinates[j+1]) == 2):
                         if str(coordinates[18])+','+str(coordinates[19]) not in t_coordinates:
                             t_coordinates.append(str(coordinates[18])+','+str(coordinates[19]))
         case 'D':
             for i in range(steps):
                 coordinates[1] += 1
-                for j in range(1,len(coordinates)-2,2):
+                for j in range(1,len(coordinates)-1,2):
                     if(abs(coordinates[j] - coordinates[j+2]) == 2):
                         coordinates[j+1] = coordinates[j-1]
                         coordinates[j+2] += 1
@@ -81,7 +82,7 @@ def move_2(direction, steps, coordinates, t_coordinates):
                 coordinates[0] += 1
                 for j in range(0,len(coordinates)-2,2):
                     if(abs(coordinates[j] - coordinates[j+2]) == 2):
-                        coordinates[j+3] = coordinates[j]
+                        coordinates[j+3] = coordinates[j+1]
                         coordinates[j+2] += 1
                         if str(coordinates[18])+','+str(coordinates[19]) not in t_coordinates:
                             t_coordinates.append(str(coordinates[18])+','+str(coordinates[19]))
@@ -95,9 +96,11 @@ for command in contents:
 for command in contents:
     c = command.split(' ')
     coordinates = move_2(c[0], int(c[1]), coordinates_2, tail_coordinates_2)
+    print(coordinates_2)
 
 print("PART 1: " + str(len(tail_coordinates)))
 print("PART 2: " + str(len(tail_coordinates_2)))
+print(tail_coordinates_2)
 
 
 
