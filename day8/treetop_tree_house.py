@@ -5,10 +5,6 @@ width = len(grid[0])
 length = len(grid)
 counted_trees = []
 count = 0
-b_score = 0
-r_score = 0
-t_score = 0
-l_score = 0
 max_score = 0
 
 
@@ -16,6 +12,10 @@ max_score = 0
 # PART 1
 for i in range(width):
     for j in range(length):
+        b_score = 10
+        r_score = 10
+        t_score = 10
+        l_score = 10
         # counts all the trees on the outside
         if (i == 0 or i==length or j == 0 or j == width):
             count += 1
@@ -29,6 +29,8 @@ for i in range(width):
                     visible = False
                     # print("false top: " + str(i) + " "+str(j))
                     break
+                else:
+                    t_score = i
             if visible and not counted:
                 counted = True
                 count += 1
@@ -42,6 +44,8 @@ for i in range(width):
                     b_score = k - i
                     # print("false bottom: " + str(i) + " "+str(j))
                     break
+                else:
+                    b_score = k
             if visible and not counted:
                 counted = True
                 count += 1
@@ -55,6 +59,8 @@ for i in range(width):
                     l_score = j - k
                     # print("false left: " + str(i) + " "+str(j))
                     break
+                else:
+                    l_score = j
             if visible and not counted:
                 counted = True
                 count += 1
@@ -68,12 +74,15 @@ for i in range(width):
                     r_score = k - j
                     # print("false right: " + str(i) + " "+str(j))
                     break
+                else:
+                    r_score = k
             if visible and not counted:
                 counted = True
                 count += 1
                 # counted_trees.append("right "+str(i) + " " + str(j))
                 
             score = (l_score*t_score*b_score*r_score)
+            print(str(i) + " " + str(j) + " " + str(l_score) + " " + str(r_score)+ " " + str(t_score)+ " " + str(b_score))
             if(score > max_score):
                 max_score = score
                 # print(score)
