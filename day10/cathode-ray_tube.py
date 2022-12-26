@@ -1,6 +1,6 @@
 f = open('input.txt', 'r')
-g = open
-contents = f.read().strip().split('\n')
+g = open('ex1.txt','r')
+contents = g.read().strip().split('\n')
 queue = []
 cycle = 0
 x = 0
@@ -16,10 +16,10 @@ for command in contents:
     cycle +=1
     if cycle == 20 or 60 or 100 or 140 or 180 or 220:
         signal += (x * cycle)
+        print(str(cycle)+ " " + str(signal) + " " + str(x))
     queue[0][1] -= 1
     if queue[0][1] == 0:
         p = queue.pop(0)
-        print(p)
         if p[0] == 'noop':
             continue
         else:
@@ -28,14 +28,15 @@ while len(queue) == 0:
     cycle +=1
     if cycle == 20 or 60 or 100 or 140 or 180 or 220:
         signal += (x * cycle)
+        print(str(cycle)+ " " + str(signal) + " " + str(x))
     queue[0][1] -= 1
     if queue[0][1] == 0:
         p = queue.pop(0)
-        print(p)
         if p[0] == 'noop':
             continue
         else:
             x += p[0]
 
-print(x)
-print(cycle)
+# print(x)
+# print(cycle)
+# print(signal)
