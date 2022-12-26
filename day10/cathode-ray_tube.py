@@ -39,4 +39,4 @@ while len(queue) > 0:
 
 print(x)
 print(cycle)
-print(signal)
+print(signal) 
