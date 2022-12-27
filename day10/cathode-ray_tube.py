@@ -37,6 +37,6 @@ while len(queue) > 0:
         else:
             x += p[0]
 
-print(x)
-print(cycle)
-print(signal) 
+# print(x)
+# print(cycle)
+print("---- PART 1: -----\n" +str(signal))
