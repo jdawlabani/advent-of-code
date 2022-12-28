@@ -40,14 +40,14 @@ def load(contents,monkeys):
             print(monkeys[-1].operation)
         if "Test:" in command[0]:
             t = command[0].split(' ')
-            monkeys[-1].test = t[-1]
+            monkeys[-1].test = int(t[-1])
             print(monkeys[-1].test)
         if "If true:" in command[0]:
             t = command[0].split(' ')
-            monkeys[-1].to_monkey.append(t[-1])
+            monkeys[-1].to_monkey.append(int(t[-1]))
         if "If false:" in command[0]:
             f = command[0].split(' ')
-            monkeys[-1].to_monkey.append(f[-1])
+            monkeys[-1].to_monkey.append(int(f[-1]))
 
 def rounds(num_of_rounds,monkeys):
     for i in range(num_of_rounds):
@@ -56,26 +56,33 @@ def rounds(num_of_rounds,monkeys):
                 m.inspected += 1
                 if m.operation[0] == '+':
                     if m.operation[1] == 'old':
-                        m.items[j] = m.items[j] * 2
+                        m.items[0] = m.items[0] * 2
                     else:
-                        m.items[j] = m.items[j] + int(m.operation[1])
+                        m.items[0] = m.items[0] + int(m.operation[1])
                 elif m.operation[0] == '-':
                     if m.operation[1] == 'old':
-                        m.items[j] = m.items[j] - m.items[j]
+                        m.items[0] = m.items[0] - m.items[0]
                     else:
-                        m.items[j] = m.items[j] - int(m.operation[1])
+                        m.items[0] = m.items[0] - int(m.operation[1])
                 elif m.operation[0] == '*':
                     if m.operation[1] == 'old':
-                        m.items[j] = m.items[j] * m.items[j]
+                        m.items[0] = m.items[0] * m.items[0]
                     else:
-                        m.items[j] = m.items[j] * int(m.operation[1])
+                        m.items[0] = m.items[0] * int(m.operation[1])
                 else:
                     if m.operation[1] == 'old':
-                        m.items[j] = m.items[j] / m.items[j]
+                        m.items[0] = m.items[0] / m.items[0]
                     else:
-                        m.items[j] = m.items[j] / int(m.operation[1])
-            
-            print(m.items)
+                        m.items[0] = m.items[0] / int(m.operation[1])
+                m.items[0] = m.items[0] // 3
+                # move the item to the monkey it belongs to 
+                send = m.items.pop(0)
+                if send % m.test == 0:
+                    monkeys[m.to_monkey[0]].items.append(send)
+                else:
+                    monkeys[m.to_monkey[0]].items.append(send)
+
+
 
 
 
@@ -83,7 +90,7 @@ def rounds(num_of_rounds,monkeys):
 
 
 load(contents, monkeys)
-rounds(1,monkeys)
+rounds(20,monkeys)
 
     
 
