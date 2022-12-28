@@ -1,5 +1,10 @@
+import copy
+
+
 f = open('input.txt', 'r')
+g = open('ex1.txt', 'r')
 contents = f.readlines()
+
 
 
 class Monkey:
@@ -37,11 +42,11 @@ def load(contents,monkeys):
             op = command[0].split(' ')
             monkeys[-1].operation.append(op[-2])
             monkeys[-1].operation.append(op[-1])
-            print(monkeys[-1].operation)
+            # print(monkeys[-1].operation)
         if "Test:" in command[0]:
             t = command[0].split(' ')
             monkeys[-1].test = int(t[-1])
-            print(monkeys[-1].test)
+            # print(monkeys[-1].test)
         if "If true:" in command[0]:
             t = command[0].split(' ')
             monkeys[-1].to_monkey.append(int(t[-1]))
@@ -49,7 +54,11 @@ def load(contents,monkeys):
             f = command[0].split(' ')
             monkeys[-1].to_monkey.append(int(f[-1]))
 
-def rounds(num_of_rounds,monkeys):
+def rounds(num_of_rounds,monkeys, relief):
+    # combined all the mods from tests together and mod results by this if no relief(divide by 3)
+    combined_mod = 1
+    for m in monkeys:
+        combined_mod = combined_mod * m.test
     for i in range(num_of_rounds):
         for m in monkeys:
             for j in range(len(m.items)):
@@ -74,14 +83,23 @@ def rounds(num_of_rounds,monkeys):
                         m.items[0] = m.items[0] / m.items[0]
                     else:
                         m.items[0] = m.items[0] / int(m.operation[1])
-                m.items[0] = m.items[0] // 3
+                if (relief):
+                    m.items[0] = m.items[0] // 3
+
                 # move the item to the monkey it belongs to 
                 send = m.items.pop(0)
                 if send % m.test == 0:
                     monkeys[m.to_monkey[0]].items.append(send)
                 else:
-                    monkeys[m.to_monkey[0]].items.append(send)
-
+                    send = send % combined_mod
+                    monkeys[m.to_monkey[1]].items.append(send)
+    top2 = [0,0]
+    for m in monkeys:
+        if m.inspected > top2[0] and m.inspected > top2[1] and top2[0] <= top2[1]:
+            top2[0] = m.inspected
+        elif m.inspected > top2[1]:
+            top2[1] = m.inspected
+    return top2[0] * top2[1]
 
 
 
@@ -90,7 +108,10 @@ def rounds(num_of_rounds,monkeys):
 
 
 load(contents, monkeys)
-rounds(20,monkeys)
+monkeys2 = copy.deepcopy(monkeys)
+print("---PART 1:---\n" +str(rounds(20,monkeys, True)))
+print("---PART 2:---\n" +str(rounds(10000,monkeys2,False)))
+
 
     
 
