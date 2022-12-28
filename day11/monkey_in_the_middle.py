@@ -29,7 +29,7 @@ for line in contents:
     if "Starting items:" in command[0]:
         items = command[0].split(' ')
         for i in range(2,len(items)):
-            num = items[i].substr(0,1)
+            num = items[i][0:2]
             monkeys[-1].items.append(int(num))
         print(monkeys[-1].items)
         print(items)
