@@ -27,7 +27,12 @@ for line in contents:
         id = id[1][0]
         monkeys.append(Monkey(id,[],0,[],None,[]))
     if "Starting items:" in command[0]:
-        print("items")
+        items = command[0].split(' ')
+        for i in range(2,len(items)):
+            num = items[i]
+            
+        print(monkeys[-1].items)
+        print(items)
     if "Operation:" in command[0]:
         print("operation")
     if "Test:" in command[0]:
