@@ -40,7 +40,7 @@ def find_path(c, grid, path,visited):
 
 
 start = find_start(grid)
-find_path(start,grid,'',[str(start[0]) + " " + str(start[1])])
+find_path(start,grid,'',[str(start[0]) + " " + str(start[1])]) 
 
 
 
