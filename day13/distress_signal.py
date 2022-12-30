@@ -2,21 +2,43 @@ f = open('input.txt', 'r')
 g = open('ex1.txt', 'r')
 contents = g.read().split('\n')
 
-left = []
-right = []
+
+
+def compare(left, right):
+    match(left,right):
+        case int(), int():
+            return (left - right)
+        case list(), int():
+            
+        case list(), list():
+
 def read_input(input):
+    left = []
+    right = []
     i = 0
+    index = 0
+    in_order = 0
     for line in input:
         if i == 0:
             left.append(line)
-            i += 1
+            i == 1
         elif i == 1:
             right.append(line)
-            i += 1
-        else:
-            i = 0
-    print(left)
-    print(right)
+    for i in range(len(right)):
+        if compare(left[i],right[i]) == 1:
+            in_order += 1
+    return in_order
 
-def compare(left, right):
-    
+
+
+
+
+
+
+
+
+
+
+read_input(contents)
+
+
