@@ -4,7 +4,7 @@ contents = g.read().split('\n')
 
 
 
-def compare(left, right):
+def compare(left: int | list, right: int | list):
     match(left,right):
         case int(), int():
             return (left - right)
@@ -25,7 +25,7 @@ def read_input(input):
         elif i == 1:
             right.append(line)
     for i in range(len(right)):
-        if compare(left[i],right[i]) == 1:
+        if compare(left[i],right[i]) > :
             in_order += 1
     return in_order
 
