@@ -17,19 +17,26 @@ def compare(left: int | list, right: int | list):
 def read_input(input):
     left = []
     right = []
-    i = 0
+    direction = 0
     index = 0
     in_order = 0
     for line in input:
-        if i == 0:
+        if direction == 0:
             left.append(line)
-            i == 1
-        elif i == 1:
+            direction = 1
+        elif direction == 1:
             right.append(line)
+            direction = 0
+    print("-----LEFT-----")
+    for i in range(len(left)):
+        print(left[i])
+    print("-----RIGHT-----")
     for i in range(len(right)):
-        if compare(left[i],right[i]) >= 1:
-            in_order += 1
-    return in_order
+        print(right[i])
+    # for i in range(len(right)):
+    #     if compare(left[i],right[i]) >= 1:
+    #         in_order += 1
+    # return in_order
 
 
 
