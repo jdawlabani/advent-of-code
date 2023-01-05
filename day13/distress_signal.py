@@ -6,11 +6,13 @@ import ast
 def compare(left: int | list, right: int | list):
     match(left,right):
         case int(), int():
-            return 1
+            if not left == right:
+                return right - left
         case list(), int():
             return 2
         case list(), list():
-            return 3
+            for i in range(len(right)):
+                compare(left[i],right[i])
         case int(), list():
             return 4
 def read_input(input: str) -> list:
@@ -36,7 +38,8 @@ def read_input(input: str) -> list:
 if __name__ == "__main__":
     print('---PART 1:---')
     arr = read_input('input.txt')
-    compare(arr[0],arr[1])
+    for i in range (len(arr[0])):
+        print(compare(arr[0][i],arr[1][i]))
 
 
 
