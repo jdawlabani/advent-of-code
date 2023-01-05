@@ -11,7 +11,8 @@ def compare(left: int | list, right: int | list):
         case list(), int():
             return 2
         case list(), list():
-            for i in range(len(right)):
+            short = min(len(right),len(left))
+            for i in range(short):
                 compare(left[i],right[i])
         case int(), list():
             return 4
