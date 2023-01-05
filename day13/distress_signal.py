@@ -1,7 +1,5 @@
 import ast
-f = open('input.txt', 'r')
-g = open('ex1.txt', 'r')
-contents = g.read().split('\n')
+
 
 
 
@@ -15,14 +13,16 @@ def compare(left: int | list, right: int | list):
             return 3
         case int(), list():
             return 4
-def read_input(input):
+def read_input(input: str) -> list:
     left = []
     right = []
     # determines where to store the input of the line 0 =>left, 1=> right, -1=> blank line
     direction = 0
     index = 0
     in_order = 0
-    for line in input:
+    f = open(input, 'r')
+    contents = f.read().split('\n')
+    for line in contents:
         if direction == 0:
             left.append(ast.literal_eval(line))
             direction = 1
@@ -31,28 +31,12 @@ def read_input(input):
             direction = -1
         else:
             direction = 0
-    print("-----LEFT-----")
-    for i in range(len(left)):
-        print(left[i])
-    print("-----RIGHT-----")
-    for i in range(len(right)):
-        print(right[i])
-    # for i in range(len(right)):
-    #     if compare(left[i],right[i]) >= 1:
-    #         in_order += 1
-    # return in_order
+    return [left, right]
 
-
-
-
-
-
-
-
-
-
-
-print(read_input(contents))
+if __name__ == "__main__":
+    print('---PART 1:---')
+    arr = read_input('input.txt')
+    compare(arr[0],arr[1])
 
 
 
