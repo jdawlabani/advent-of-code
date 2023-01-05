@@ -39,7 +39,7 @@ def read_input(input: str) -> list:
 
 if __name__ == "__main__":
     print('---PART 1:---')
-    arr = read_input('input.txt')
+    arr = read_input('ex1.txt')
     for i in range (len(arr[0])):
         print(compare(arr[0][i],arr[1][i]))
 
