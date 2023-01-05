@@ -6,13 +6,14 @@ import ast
 def compare(left: int | list, right: int | list):
     match(left,right):
         case int(), int():
-            if not left == right:
-                return right - left
+                if not left == right:
+                    return right - left
         case list(), int():
             return 2
         case list(), list():
             short = min(len(right),len(left))
             for i in range(short):
+                print(left[i],' ',right[i])
                 compare(left[i],right[i])
         case int(), list():
             return 4
