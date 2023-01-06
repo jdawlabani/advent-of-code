@@ -1,28 +1,22 @@
 import ast
+from functools import cmp_to_key
 
 
 
 
-def compare(left: int | list, right: int | list):
-    match(left,right):
+def compare(left: int | list, right: int | list) -> int:
+    match left, right:
         case int(), int():
-                if not left == right:
-                    return right - left
-                else:
-                    return 0
-        case list(), int():
-            new_right = []
-            new_right.append(right)
-            return compare(left[0],new_right[0])
+            return (left < right) - (left > right)
         case list(), list():
-            short = min(len(right),len(left))
-            for i in range(short):
-                # print(left[i],' ',right[i])
-                return compare(left[i],right[i])
+            for cmp_val in map(compare, left, right):
+                if cmp_val:
+                    return cmp_val
+            return compare(len(left), len(right))
         case int(), list():
-            new_left = []
-            new_left.append(left)
-            return compare(new_left[0],right[0])
+            return compare([left], right)
+        case list(), int():
+            return compare(left, [right])
 
 def read_input(input: str) -> list:
     left = []
@@ -47,7 +41,7 @@ def read_input(input: str) -> list:
 if __name__ == "__main__":
     print('---PART 1:---')
     in_order = 0
-    arr = read_input('ex1.txt')
+    arr = read_input('input.txt')
     for i in range (len(arr[0])):
         if compare(arr[0][i],arr[1][i]) > 0:
             in_order += 1
